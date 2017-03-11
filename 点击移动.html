@@ -1,0 +1,49 @@
+<html>
+  <head></head>
+  <script type="text/javascript">
+    
+	 function goright(i,j){
+	   var test2=document.test2;
+	   var left=eval("test2."+i);
+	   var right=eval("test2."+j);
+	   var text='';
+	   for( var k=left.options.length-1;k>=0;k--){
+	      if(left.options[k].selected){
+		    new_option=new Option(left.options[k].text,left.options[k].value);
+			right.options[right.options.length]=new_option;
+			// text=text+"<option value=\""+left.options[k].value+"\">"+left.options[k].text;
+			 left.options[k]=null;
+		  
+		  }
+	   }
+	 }
+  </script>
+  <body>
+  <form name="test2" >
+     
+	 <tr>
+     <div style="float:left;">
+	 <select size="10" name="list" multiple style="width:300px;">
+	 
+	  <option value="http://www.baidu.com" ondblclick="goright('list','fly');">百度
+	  <option value="http://sina.cn" ondblclick="goright('list','fly');">新浪
+	  <option value="3" ondblclick="goright('list','fly');">360
+	  <option value="4" ondblclick="goright('list','fly');">开心网
+	  <option value="5" ondblclick="goright('list','fly');">校内网
+	  <option value="6" ondblclick="goright('list','fly');">58同城
+	  <option value="7" ondblclick="goright('list','fly');">赶集
+	  <option value="8" ondblclick="goright('list','fly');">财富
+	 </select>
+	 </div>
+	 <div style="float:left;">
+		<h2 style="font-size:25px;position:reletive;margin-top:50px;background:#ccc;" onclick="goright('list','fly');">--></h2>
+		<h2 style="font-size:25px;position:reletive;top:30px;background:#ccc;" onclick="goright('fly','list');"><--</h2>
+	</div>
+	 <div style="float:left;">
+		<select size="10" name="fly" multiple style="width:300px;">
+	  
+		</select>
+	 </div>
+	</tr>
+  </body>
+</html>

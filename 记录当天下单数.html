@@ -1,0 +1,42 @@
+﻿function get_order_number()
+{
+	/**
+	 * 本函数是生动写一个文件，记录日期及今天下的订单数
+	 * lang	2006-10-20
+	 */
+	$filename = "order_number";
+
+	if (file_exists($filename))
+	{
+
+		$order_number=file($filename);
+		print_r($order_number);
+		if(strncmp($order_number[0],date("Y-m-d"),10))
+		{
+			$fp = fopen($filename,"w");
+			fwrite($fp,date("Y-m-d"));
+			fwrite($fp,"\n1\n");
+			fclose($fp);
+			return(1);
+		}
+		else
+		{
+			$fp = fopen($filename,"w");
+			fwrite($fp,date("Y-m-d"));
+			fwrite($fp,"\n");
+			fwrite($fp,$order_number[1]+1);
+			fwrite($fp,"\n");
+			fclose($fp);
+
+			return($order_number[1]+1);
+		}
+	}
+	else
+	{
+		$fp = fopen($filename,"w");
+		fwrite($fp,date("Y-m-d"));
+		fwrite($fp,"\n1\n");
+		fclose($fp);
+		return(1);
+	}
+}
