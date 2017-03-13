@@ -1,0 +1,26 @@
+[root@localhost etc]# cat my.cnf
+[client]
+port=3306
+default-character-set=utf8
+[mysqld]
+skip-name-resolve
+default-character-set=utf8
+max_connections=3000
+interactive_timeout=310000
+wait_timeout=31000
+query_cache_size=48M
+table_cache=3000
+tmp_table_size=52M
+thread_cache_size=8
+sort_buffer_size=256K
+innodb_thread_concurrency=8
+myisam-recover=FORCE
+max_allowed_packet=32M
+innodb_file_per_table=1
+lower_case_table_names=1
+slow_query_log=1
+log_slow_queries=/var/lib/mysql/slow.log
+long_query_time = 4
+log_long_format
+interactive_timeout = 10
+wait_timeout = 10
