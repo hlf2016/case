@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模拟计算器</title>
+</head>
+<style>
+    #calc{width:320px;height:300px;margin:140px auto;border:2px solid blue;text-align:center;padding:10px;}
+    #calc #showresult{text-align:right;}
+    #calc input{width:300px;height:35px;margin-bottom:0px;}
+    #key{width:220px;margin:20px auto;background:#ccc;text-align:center;}
+    #key table input {padding:0;margin-left:4px;width:38px;height:30px;boder:1px solid white;text-align:center;}
+
+
+</style>
+<script type="text/javascript" language="javascript">
+    var Del=true;
+
+    function button_click(e){
+
+        var objtext = document.getElementById("showresult");
+        if(Del==true){
+            objtext.value='';
+        }
+        if(e.value=='D'){
+		    if(Del==false){
+				var len=objtext.value.length;
+				objtext.value=objtext.value.substr(0,len-1);
+			}else{
+			    objtext.value = '0';
+                Del=true;
+			}
+        }else if(e.value=='C'){
+            objtext.value = '0';
+            Del=true;
+        }else{
+        objtext.value+= e.value;
+            Del=false;
+        }
+    }
+    function button_result(){
+        var objtext = document.getElementById("showresult");
+        objtext.value+="="+eval(objtext.value);
+        Del=true;
+    }
+
+
+</script>
+<body>
+  <div id="calc">
+      <div id="show"><input id="showresult" value="0" type="text" readonly></div>
+      <div id="key">
+          <table>
+              <tr><td>
+                  <input value="0" onclick="button_click(this)">
+                  <input value="1" onclick="button_click(this)">
+                  <input value="2" onclick="button_click(this)">
+                  <input value="3" onclick="button_click(this)">
+              </td></tr>
+              <tr><td>
+                  <input value="4" onclick="button_click(this)">
+                  <input value="5" onclick="button_click(this)">
+                  <input value="6" onclick="button_click(this)">
+                  <input value="7" onclick="button_click(this)">
+              </td></tr>
+              <tr><td>
+                  <input value="8" onclick="button_click(this)">
+                  <input value="9" onclick="button_click(this)">
+                  <input value="(" onclick="button_click(this)">
+                  <input value=")" onclick="button_click(this)">
+              </td></tr>
+              <tr><td>
+                  <input value="+" onclick="button_click(this)">
+                  <input value="-" onclick="button_click(this)">
+                  <input value="*" onclick="button_click(this)">
+                  <input value="/" onclick="button_click(this)">
+              </td></tr>
+              <tr><td>
+                  <input value="." onclick="button_click(this)">
+                  <input value="D" onclick="button_click(this)">
+                  <input value="C" onclick="button_click(this)">
+                  <input value="=" onclick="button_result(this)">
+              </td></tr>
+        </table>
+    </div>
+  </div>
+</body>
+</html>

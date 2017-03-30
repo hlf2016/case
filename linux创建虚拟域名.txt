@@ -1,0 +1,21 @@
+<VirtualHost *:80>
+    ServerAdmin webmaster@dummy-host.example.com
+    DocumentRoot /www/sms
+    ServerName sms.m9n.com
+    ErrorLog logs/svnmanage-host.example.com-error_log
+    CustomLog logs/svnmanage-host.example.com-access_log common
+</VirtualHost>
+<VirtualHost *:80>
+    ServerAdmin webmaster@dummy-host.example.com
+    DocumentRoot /www/ems
+    ServerName ems.m9n.com
+    ErrorLog logs/svnmanage-host.example.com-error_log
+    CustomLog logs/svnmanage-host.example.com-access_log common
+</VirtualHost>
+<VirtualHost *:80>
+    ServerAdmin webmaster@dummy-host.example.com
+    DocumentRoot /www/support
+    ServerName support.m9n.com
+    ErrorLog logs/svnmanage-host.example.com-error_log
+    CustomLog logs/svnmanage-host.example.com-access_log common
+</VirtualHost>
