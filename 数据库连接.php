@@ -28,7 +28,10 @@
   { 
 	  echo $e->getMessage();exit();
   }
-  $que = $pdo->query("select * from cg_case");
+  //设置字符集
+  $pdo->exec("SET names utf8");
+  //插入 
+  $que = $pdo->exec("select * from cg_case");
   while($result = $que->fetch())
   {
 	  print_r($result);
