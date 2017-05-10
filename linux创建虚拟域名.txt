@@ -1,21 +1,23 @@
+一、vi /etc/httpd/conf/httpd.conf
+	a) 取消注释 
+		NameVirtualHost * :80
+	b) 末尾添加或 引入其它文件
+		Include conf/extra/httpd-vhosts.conf
+#配置内容如下		
 <VirtualHost *:80>
     ServerAdmin webmaster@dummy-host.example.com
-    DocumentRoot /www/sms
-    ServerName sms.m9n.com
-    ErrorLog logs/svnmanage-host.example.com-error_log
-    CustomLog logs/svnmanage-host.example.com-access_log common
+    DocumentRoot /var/www/demo
+    ServerName demovirtual.com
+    ErrorLog logs/dummy-host.example.com-error_log
+    CustomLog logs/dummy-host.example.com-access_log common
 </VirtualHost>
 <VirtualHost *:80>
     ServerAdmin webmaster@dummy-host.example.com
-    DocumentRoot /www/ems
-    ServerName ems.m9n.com
-    ErrorLog logs/svnmanage-host.example.com-error_log
-    CustomLog logs/svnmanage-host.example.com-access_log common
+    DocumentRoot /var/www/html
+    ServerName m9virtual.com
+    ErrorLog logs/dummy-host.example.com-error_log
+    CustomLog logs/dummy-host.example.com-access_log common
 </VirtualHost>
-<VirtualHost *:80>
-    ServerAdmin webmaster@dummy-host.example.com
-    DocumentRoot /www/support
-    ServerName support.m9n.com
-    ErrorLog logs/svnmanage-host.example.com-error_log
-    CustomLog logs/svnmanage-host.example.com-access_log common
-</VirtualHost>
+
+二、重启apache
+	service httpd restart

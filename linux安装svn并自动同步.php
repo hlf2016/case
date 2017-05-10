@@ -72,7 +72,7 @@
 		REPOS="$1"
 		REV="$2"
 
-		BASEPATH=/var/www/webroot/njlrxx
+		BASEPATH=/var/www/html
 		WEBPATH="$BASEPATH/"
 		export LANG=zh_CN.UTF-8
 		svn update $WEBPATH --username user1 --password 123456 --no-auth-cache
