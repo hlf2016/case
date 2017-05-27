@@ -1,4 +1,10 @@
  <script type="text/javascript">
+	//处理跨域问题
+	 a)修改apache httpd.conf
+	  LoadModule headers_module modules/mod_headers.so  //去掉#
+	 b)extra/httpd-vhosts.conf
+	  Header set Access-Control-Allow-Origin *  //添加
+ 
 	//传输file文件
 	e = document.advert;
 	var formData = new FormData();
