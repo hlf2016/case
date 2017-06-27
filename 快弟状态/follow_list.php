@@ -234,7 +234,7 @@ if ( $page_id == 0 )
 <script src='../jscss/functions.js' type='text/javascript' language='javascript'></script> 
 <SCRIPT type='text/javascript' Language="JavaScript" src="../js/ajax.js"></SCRIPT> 
 <script language="JavaScript">
- function showdate(i,j,k)
+ function showdate(i,j)
  {
 	
 	var exp =  'tiantian';
@@ -248,7 +248,8 @@ if ( $page_id == 0 )
 				if (request.status == 200)
 				{
 					tt=request.responseText;
-					//alert(tt);
+					alert(tt);
+					/*
 					var snum_show = document.getElementById('snum_show');
 					
 					var state_s = eval("("+tt+")");
@@ -263,7 +264,8 @@ if ( $page_id == 0 )
 						  str = str+state_s["data"][i]["time"]+": "+state_s["data"][i]["context"]+"<br/>";
 						}
 					}
-					  snum_show.innerHTML = str;
+					snum_show.innerHTML = str;
+					*/
 				}
 			}
         }  
