@@ -1,0 +1,64 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>{$title_now}</h2>
+    </div>
+	<div class="main-main-content">
+
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <div class="with-padding">
+             
+            <div class="form-item">
+                <label class="item-label">启用仓库<span class="check-tips"></span></label>
+                <div class="controls">
+					<if condition="$system['is_store'] eq 1">
+						<label class="radio-inline"><input type="radio" name="is_store" value="1" checked>{:L("_YES_")}</label>
+						<label class="radio-inline"><input type="radio" name="is_store" value="0">{:L("_NOT_")}</label>
+					<else />
+						<label class="radio-inline"><input type="radio" name="is_store" value="1">{:L("_YES_")}</label>
+						<label class="radio-inline"><input type="radio" name="is_store" value="0"  checked>{:L("_NOT_")}</label>
+					
+					</if>
+                </div>
+            </div>
+			<div class="form-item">
+                <label class="item-label">调货审核<span class="check-tips"></span></label>
+                <div class="controls">
+				<if condition="$system['is_confirm'] eq 1">
+                    <label class="radio-inline"><input type="radio" name="is_confirm" value="1" checked>{:L("_YES_")}</label>
+                    <label class="radio-inline"><input type="radio" name="is_confirm" value="0">{:L("_NOT_")}</label>
+				<else />
+					<label class="radio-inline"><input type="radio" name="is_confirm" value="1">{:L("_YES_")}</label>
+                    <label class="radio-inline"><input type="radio" name="is_confirm" value="0" checked>{:L("_NOT_")}</label>
+				</if>
+                </div>
+            </div>
+			<div class="form-item">
+                <label class="item-label">打印小票<span class="check-tips"></span></label>
+                <div class="controls">
+				<if condition="$system['is_print'] eq 1">
+                    <label class="radio-inline"><input type="radio" name="is_print" value="1" checked>{:L("_YES_")}</label>
+                    <label class="radio-inline"><input type="radio" name="is_print" value="0">{:L("_NOT_")}</label>
+				<else />
+					<label class="radio-inline"><input type="radio" name="is_print" value="1">{:L("_YES_")}</label>
+                    <label class="radio-inline"><input type="radio" name="is_print" value="0" checked>{:L("_NOT_")}</label>
+				</if>
+                </div>
+            </div> 
+        </div>
+
+        <div class="form-item with-padding">
+            <input type="hidden" name="id" value="{$info.id|default=''}">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">{:L("_SURE_WITH_SPACE_")}</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">{:L("_RETURN_WITH_SPACE_")}</button>
+        </div>
+    </form>
+	</div>
+</block>
+
+<block name="script">
+    <script type="text/javascript"> 
+		 
+    </script>
+</block>
