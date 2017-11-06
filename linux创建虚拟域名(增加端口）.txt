@@ -21,3 +21,15 @@
 
 二、重启apache
 	service httpd restart
+
+	
+//增加端口指定目录
+在Listen 80处另起一行输入Listen 9292
+末尾填加如下
+<VirtualHost *:9292>
+    ServerAdmin webmaster@dummy-host.example.com
+    DocumentRoot /var/www/h5/
+    ServerName 211.103.141.190:9292
+    ErrorLog logs/dummy-host.example.com-error_log
+    CustomLog logs/dummy-host.example.com-access_log common
+</VirtualHost>
