@@ -65,7 +65,8 @@
 		cd /var/www/svndata/demo/hooks/
 
 		cp post-commit.tmpl post-commit
-
+		
+		chmod 777 post-commit  
 		编辑post-commit,在文件最后添加以下内容
 		<!--复制代码开始-->
 
