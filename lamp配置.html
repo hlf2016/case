@@ -1,0 +1,54 @@
+yum安装卸载
+	yum remove mysqld
+	yum remove php
+	yum remove httpd
+yum 安装
+	yum install -y bison bison-devel dos2unix gcc gcc-c++ gettext gnutls-devel httpd kernel libcurl-devel libdbi-dbd-mysql libtool-ltdl-devel libuuid-devel libxml2 libxml2-devel mysql mysql-devel mysql-server mysql-connector-odbc ncurses ncurses-devel unixODBC unixODBC-devel openssl openssl-devel patch perl-DBD-Pg php php-gd php-mysql php-odbc pptp pptp-setup speex speex-devel sqlite sqlite-devel uuid uuid-devel zlib zlib-devel
+
+
+ps -ef|grep httpd  //显示httpd进程的消息
+
+第一、启动、终止、重启(centos7)
+    systemctl start httpd.service #启动
+    systemctl stop httpd.service #停止
+    systemctl restart httpd.service #重启
+
+第二、设置开机启动/关闭(centos7)
+    systemctl enable httpd.service #开机启动
+    systemctl disable httpd.service #开机不启动
+
+第三、检查httpd状态  (centos7)
+	systemctl status httpd.service
+
+防火墙的操作(centos7)
+	启动： systemctl start firewalld
+	查看状态： systemctl status firewalld 
+	停止： systemctl disable firewalld
+	禁用： systemctl stop firewalld
+
+查看/关闭防火墙(centos 6)
+    service iptables stop  关闭防火墙
+	service iptables start  重新开启防火墙 
+
+显示操作记录
+	history
+
+
+
+查看SELinux状态：
+    1、/usr/sbin/sestatus -v      ##如果SELinux status参数为enabled即为开启状态
+		SELinux status:                 enabled
+	2、getenforce                 ##也可以用这个命令检查
+关闭SELinux：
+	1、临时关闭（不用重启机器）：
+		setenforce 0                  ##设置SELinux 成为permissive模式
+		 ##setenforce 1 设置SELinux 成为enforcing模式
+	2、修改配置文件需要重启机器：
+修改/etc/selinux/config 文件
+	将SELINUX=enforcing改为SELINUX=disabled
+重启机器即可
+
+
+ 
+
+ 
