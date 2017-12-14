@@ -8,6 +8,8 @@ yum 安装
 
 ps -ef|grep httpd  //显示httpd进程的消息
 
+chkconfig –levels 235 httpd on   //设置开机启动
+
 第一、启动、终止、重启(centos7)
     systemctl start httpd.service #启动
     systemctl stop httpd.service #停止
@@ -27,8 +29,9 @@ ps -ef|grep httpd  //显示httpd进程的消息
 	禁用： systemctl stop firewalld
 
 查看/关闭防火墙(centos 6)
-    service iptables stop  关闭防火墙
+    service iptables stop  关闭防火墙（临时关闭，重启后失效）
 	service iptables start  重新开启防火墙 
+	chkconfig iptables off  永久性关闭生效，需要重启后才能生效
 
 显示操作记录
 	history
