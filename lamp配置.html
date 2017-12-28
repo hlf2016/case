@@ -52,6 +52,42 @@ chkconfig –levels 235 httpd on   //设置开机启动
 重启机器即可
 
 
+ubuntu LAMP环境配置(参考版本16.04)
+###apache2
+    sudo apt-get install apache2  //安装
+    sudo /etc/init.d/apache2 restart  //重启
+    curl http://localhost或http：//127.0.0.1，测试
+### php
+    sudo apt-get install php7.0  //安装   ubuntu16.04中没有php5了，直接装7吧
+    sudo apt-get install libapache2-mod-php7.0  // 配置APACHE+PHP7的
+    sudo apt-get install libapache2-mod-php    // 这个应该是配置APACHE+PHP5的，一块装吧
+    sudo /etc/init.d/apache2 restart    // 重启
+    touch phpinfo.php    //新建一个页面测试 
+###MySql
+    apt-get install mysql-server mysql-client    // 安装时会要求输入mysql管理员密码，输入即可
+
+    注意：
+    mysql-server：用来创建和管理数据库实例，提供相关接口供不同客户端调用;
+    mysql-client：操作数据库实例的的一个命令行工具，像图形化界面工具有phpmyadmin等;
+    mysqld：即MySQL server
+    mysql：即mysql-client客户端命令行工具
+    - 附mysql服务管理命令
+
+    /etc/init.d/mysql stop/restart/start  // 停止、重启、开启数据库
+    service mysql stop/restart/start    // 同上
+
+### 附加配置
+    1. 无法使用phpmyadmin客户端工具   解决： 打开php.ini 中的 mysql,pdo,mysqli拓展，如果没有则需要安装
+    2. 验证码页面报错 解决：安装gd库环境
+    3. undefind curl_init()  解决：安装curl拓展
+    4. rewrite 重写不生效   解决：a,打开php.ini中的rewrite拓展。b,sudo a2enmod rewrite  c,sudo vim /etc/apache2/sites-enabled/000-default   将其中的 AllowOverride None 修改为 AllowOverride All，  d,sudo /etc/init.d/apache2 restart
+
+### 参考代码
+    apt-get install php-mcrypt;
+    apt-get install php-curl;
+    apt-get install php-gd;
+
+
  
 
  
