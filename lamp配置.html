@@ -87,7 +87,36 @@ ubuntu LAMP环境配置(参考版本16.04)
     apt-get install php-curl;
     apt-get install php-gd;
 
+ubuntu LNMP环境配置(参考版本16.04)
+### sudo apt install mysql-server    //安装mysql 会提示输入密码
+### #添加nginx和php的ppa源 并安装nginx
+	sudo apt-add-repository ppa:nginx/stable
+	sudo apt-add-repository ppa:ondrej/php
+	sudo apt update
+ 	sudo apt install nginx
+### sudo apt install php7.0-fpm   //安装php7.0 
+### sudo apt-get install vim  //不影响编辑文本可忽略
+### 修改配置
+	sudo vim /etc/php/7.0/fpm/pool.d/www.conf  //php配置
+		root /var/www/html;   //web站点根目录
+		#nginx 和fastcgi通信有2种方式，一种是TCP方式，还有种是UNIX Socket方式
+		#默认是socket方式
+		listen = /run/php/php7.0-fpm.sock   //记录此行
+	sudo service php7.0-fpm restart  //重启php
+	sudo vim /etc/nginx/sites-enabled/default //配置nginx
+		# Add index.php to the list if you are using PHP
+		index index.php index.html index.htm index.nginx-debian.html; //添加index.php
+		
+		location ~ \.php$ {
+		   include snippets/fastcgi-php.conf;
 
+		    With php-fpm (or other unix sockets):
+		    fastcgi_pass unix:/run/php/php7.0-fpm.sock;  //与上面地址一致
+		    #With php-cgi (or other tcp sockets):
+	            #fastcgi_pass 127.0.0.1:9000;
+		}
+	sudo service nginx restart   //重启生效
+### sudo apt install php-mysql php-curl php-mcrypt php-gd php-memcached php-redis  #根据需要安装拓展
  
 
  
