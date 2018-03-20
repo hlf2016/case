@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style type="text/css">
+	.tab a{
+		display: inline-block;
+			width: 23%;
+			text-decoration: none;
+			background-color: #eee;
+			text-align: center;
+			color: #333;
+			height: 40px;
+			line-height: 40px;
+			font-size: 30px;
+		}
+		.tab .cur{
+			background-color: #333;
+			text-align: center;
+			color: #eee;
+		}
+		ul li{
+			list-style: none;
+			width: 80%;
+		}
+		ul li:hover{
+			background-color: #eee;
+		}
+		.close{
+			margin-left: 100px;
+			color: red;
+			display: none;
+		}
+		ul li:hover .close{
+			display: inline-block;
+		}
+		ul li input{
+			display: none;
+		}
+		.curedit div{
+			display: none;
+		}
+		.curedit input{
+			display: block;
+		}
+		.status-span{
+			display: inline-block;
+			width: 10px;
+			height: 10px;
+			border: 1px solid #000;
+		}
+		.status_end{
+			background-color: #666;
+		}
+</style>
+<body>
+<div id="tab">
+	<div class="tab" >
+		<a href="javascript:;"  @click="curId=0" :class="{'cur':curId===0}">js</a>
+ 
+
+
+		<a href="javascript:;"  @click="curId=1" :class="{'cur':curId===1}">html</a>
+		<a href="javascript:;"  @click="curId=2" :class="{'cur':curId===2}">php</a>
+		<a href="javascript:;"  @click="curId=3" :class="{'cur':curId===3}">java</a>
+	</div> 
+	<div class="con">
+		<span v-show="curId===0">js</span>
+		<span v-show="curId===1">html</span>
+		<span v-show="curId===2">php</span>
+		<span v-show="curId===3">java</span>
+	</div>
+</div>
+
+<div id="todolist">
+	<h4>小目标列表</h4>
+	<b>新增小目标</b>
+	<input type="text" placeholder="输入后按回车" v-model="addText" @keyup.13="addList" />
+	<div>
+		<form>
+		<p>共有个{{prolist.length}}小目标,完成了{{prolist.length-nocured}}个小目标，未完成{{nocured}}个小目标</p>
+		<p><input type="radio"  name="chooselist" @click="chooselist(1)" checked="checked" />所有目标<input type="radio" name="chooselist" @click="chooselist(2)"/>已完成目标<input type="radio"  name="chooselist"  @click="chooselist(3)"/>未完成目标</p>
+		<ul >
+			<li v-for="(list,index) in newlist" :class="{'curedit':index===curEdit}">
+				<div >
+					<span class="status-span" :class="{'status_end':list.status}"  @click="changeType(index)"></span>
+					<span @dblclick="curEdit=index">{{list.name}}</span>
+					<span class="close" @click="deletelist(index)">X</span> 
+				</div>    
+				<input type="text" v-model="list.name" @keyup.esc="canneledit(list)" @keyup.enter="curEdit=''" @focus = "beforedit(list.name)" v-focus/>
+			</li>
+		</ul>
+		</form>
+	</div>
+</div>
+</body> 
+
+
+<script type="text/javascript" src="./vue.min.js"></script>
+<script type="text/javascript">
+	app = new Vue({
+		el:'#tab',
+		data:{
+			curId:0
+		},
+        computed: {},
+        methods: {},
+        mounted: function () {
+        }
+	})
+	app2 = new Vue({
+		el:"#todolist",
+		data:{
+			addText:'',
+			prolist:[
+				{'name':'去旅游','status':1},
+				{'name':'开飞机','status':1},
+				{'name':'学滑板','status':1}
+				],
+			newlist:[],
+			editText:'',
+			curEdit:'',
+			beforeText:'',
+			curType:''
+		},
+		computed:{
+
+			nocured:function(){
+				return this.prolist.filter(function(item){return !item.status}).length;
+			}
+		},
+		methods:{
+			addList:function(){
+				this.prolist.push({
+					'name':this.addText,
+					'status':false
+				});
+				this.addText = '';
+			},
+			chooselist:function(type){
+				switch(type){
+					case 1:this.newlist = this.prolist;break;
+					case 2:this.newlist = this.prolist.filter(function(item){return item.status});break;
+					case 3:this.newlist = this.prolist.filter(function(item){return !item.status});break;
+				} 
+				this.curType = type;
+			},
+			deletelist: function(index){
+				this.prolist.splice(index,1);
+				this.newlist = this.prolist
+			},
+			beforedit:function(name){
+				this.beforeText = name;
+			},
+			canneledit:function(list){
+				list.name = this.beforeText;
+				this.curEdit='';
+			},
+			changeType: function(index){
+				this.prolist[index].status = !this.prolist[index].status;
+				this.chooselist(this.curType);
+			}
+		},
+		mounted(){
+			this.newlist = this.prolist;
+		},
+		directives:{
+			"focus":{
+				update(el){
+					el.focus();
+				}
+			}
+		}
+	})
+
+</script>
+</html>
