@@ -1,4 +1,103 @@
-1.保存图片
+###url 跳转
+```html
+	<view class="btn-area">
+	  <navigator url="/page/navigate/navigate?title=navigate" hover-class="navigator-hover">跳转到新页面</navigator>
+	  <navigator url="../../redirect/redirect/redirect?title=redirect" open-type="redirect" hover-class="other-navigator-hover">在当前页打开</navigator>
+	  <navigator url="/page/index/index" open-type="switchTab" hover-class="other-navigator-hover">切换 Tab</navigator>
+	</view>
+```	
+```javascript
+	  redirectFunc: function (name) {
+		wx.reLaunch({
+		  url: '../search/index?s=' + name
+		})
+	}
+```
+###部分修改数据
+```html
+ 	var editPhraseCon = "list["+currentIds+"].snt"
+        var editPhraseTag = "list["+currentIds+"].editTag"
+	that.setData({
+	   [editPhraseCon]: con,
+	   [editPhraseTag]: true,
+	   showDialog: false
+	}) 
+```
+### 获取用户信息及获取
+```javascript
+//app.js 获取
+getUserInfo: function (cb) {
+    var that = this
+    if (this.globalData.userInfo) {
+      typeof cb == "function" && cb(this.globalData.userInfo)
+    } else {
+      //调用登录接口
+      wx.login({
+        success: function (response) {
+          console.info('response', response)
+          wx.getUserInfo({
+            success: function (res) {
+              console.info('res', res)
+              that.globalData.userInfo = res.userInfo
+              typeof cb == "function" && cb(that.globalData.userInfo)
+            }
+          })
+        }
+      })
+    }
+  },
+  globalData: {
+    userInfo: null,
+    domain: 'https://www.somethingwhat.com',
+    localStorage: {
+      style: {},
+      usage: {
+        //lastreadurl: '',
+        //lastreadchaptername: '',
+        //lastreadbookname: '',
+        history: []
+      }
+    }
+//index.js 获取
+var app = getApp()
+Page({
+  data: {
+    motto: '',
+    userInfo: {}
+  },
+  onLoad: function () {
+    console.log('onLoad')
+    wx.showShareMenu()
+    var that = this
+    //调用应用实例的方法获取全局数据
+    app.getUserInfo(function (userInfo) {
+      //更新数据
+      that.setData({
+        userInfo: userInfo
+      })
+    }) 
+  }
+})
+```
+###form提交及获取数据
+```html
+ <form bindsubmit="formSubmit">
+      <input class="weui-search-bar__input input-search" maxlength="20" confirm-type="search" bindconfirm="confirmEvent" name="s_name" placeholder="请输入小说名称" />
+      <button class="input-btn" type="primary" size="mini" hover-class="other-button-hover" formType="submit">搜索</button>
+    </form>
+```
+```javascript
+ //提交
+  formSubmit: function (e) {
+    console.info('formSubmit')
+    var _txt = e.detail.value.s_name.trim();
+    if (_txt != '') {
+      this.redirectFunc(encodeURIComponent(_txt));
+    }
+  }
+ ```
+
+###保存图片
 ```javascript
 wx.downloadFile({
           url: imgSrc,
@@ -35,7 +134,7 @@ wx.downloadFile({
           }
       })
 ```
-2.php后台模拟请求微信接口
+###php后台模拟请求微信接口
 ```php
 /* 发送json格式的数据，到api接口 -xzz0704  */
     function https_curl_json($url,$data,$type){
