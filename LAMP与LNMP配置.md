@@ -1,60 +1,77 @@
-yum安装卸载
-	yum remove mysqld
-	yum remove php
-	yum remove httpd
-yum 安装
-	yum install -y bison bison-devel dos2unix gcc gcc-c++ gettext gnutls-devel httpd kernel libcurl-devel libdbi-dbd-mysql libtool-ltdl-devel libuuid-devel libxml2 libxml2-devel mysql mysql-devel mysql-server mysql-connector-odbc ncurses ncurses-devel unixODBC unixODBC-devel openssl openssl-devel patch perl-DBD-Pg php php-gd php-mysql php-odbc pptp pptp-setup speex speex-devel sqlite sqlite-devel uuid uuid-devel zlib zlib-devel
-        //simple version
-        yum install -y  gcc gcc-c++  httpd kernel libcurl-devel libdbi-dbd-mysql  mysql mysql-devel mysql-server mysql-connector-odbc openssl openssl-devel  php php-gd php-mysql php-odbc 
-
-
-ps -ef|grep httpd  //显示httpd进程的消息
-
-chkconfig –levels 235 httpd on   //设置开机启动
-
-第一、启动、终止、重启(centos7)
+###LAMP配置(centos7.0)
+```sh
+1. 安装apache        # yum install httpd httpd-devel
+2. 启动apache服务    # systemctl start  httpd
+3. 设置httpd服务开机启动     # systemctl enable  httpd
+4. 查看服务状态 	systemctl # status httpd
+5. 确认80端口监听中(至此可访问IP测试) 	netstat -tulp   //否则关闭防火墙或开启防火墙80端口
+6. 安装mysql	yum install mariadb mariadb-server mariadb-libs mariadb-devel
+7. 开启mysql服务，并设置开机启动，检查mysql状态 	systemctl start  mariadb 
+		systemctl enable  mariadb 
+		systemctl status  mariadb 
+8. 登陆数据库测试	 mysql -uroot -p 
+9. 安装php 		yum -y install php
+10. php与mysql关联起来		yum install php-mysql
+11. 安装常用PHP模块			yum install -y php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-snmp php-soap curl curl-devel php-bcmath
+12. 重启apache服务器(至此可访问IP测试)		systemctl restart http
+```
+### centos7 安装php7
+```sh
+1. 安装可以用的 EPEL and Remi 源
+# yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+# yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+2. 安装yum-utils,他是用于管理yum存储库和软件包的有用程序。它是yum基本扩展的工具。
+# yum install yum-utils
+3. 利用yum-utils启用Remi存储库作为安装不同PHP版本的默认存储库
+	# yum-config-manager --enable remi-php70   //[Install PHP 7.0]
+	# yum-config-manager --enable remi-php71   //[Install PHP 7.1]
+	# yum-config-manager --enable remi-php72   //[Install PHP 7.2]
+4.  安装PHP 7的必要模块和扩展
+	# yum install php php-mcrypt php-cli php-gd php-curl php-mysql php-ldap php-zip php-fileinfo 
+5. 测试  # php -v
+```
+###常用命令
+```sh
+1、启动、终止、重启(centos7)
     systemctl start httpd.service #启动
     systemctl stop httpd.service #停止
     systemctl restart httpd.service #重启
 
-第二、设置开机启动/关闭(centos7)
+2、设置开机启动/关闭(centos7)
     systemctl enable httpd.service #开机启动
     systemctl disable httpd.service #开机不启动
 
-第三、检查httpd状态  (centos7)
+3、检查httpd状态  (centos7)
 	systemctl status httpd.service
 
-防火墙的操作(centos7)
+4. 防火墙的操作(centos7)
 	启动： systemctl start firewalld
 	查看状态： systemctl status firewalld 
 	停止： systemctl disable firewalld
 	禁用： systemctl stop firewalld
 
-查看/关闭防火墙(centos 6)
+5.查看/关闭防火墙(centos 6)
     service iptables stop  关闭防火墙（临时关闭，重启后失效）
 	service iptables start  重新开启防火墙 
 	chkconfig iptables off  永久性关闭生效，需要重启后才能生效
+ 
 
-显示操作记录
-	history
-
-
-
-查看SELinux状态：
+6. 查看SELinux状态：
     1、/usr/sbin/sestatus -v      ##如果SELinux status参数为enabled即为开启状态
 		SELinux status:                 enabled
 	2、getenforce                 ##也可以用这个命令检查
-关闭SELinux：
+7.关闭SELinux：
 	1、临时关闭（不用重启机器）：
 		setenforce 0                  ##设置SELinux 成为permissive模式
 		 ##setenforce 1 设置SELinux 成为enforcing模式
 	2、修改配置文件需要重启机器：
-修改/etc/selinux/config 文件
-	将SELINUX=enforcing改为SELINUX=disabled
-重启机器即可
+		修改/etc/selinux/config 文件
+		将SELINUX=enforcing改为SELINUX=disabled
+	重启机器即可
 
+```
+###ubuntu LAMP环境配置(参考版本16.04)
 
-ubuntu LAMP环境配置(参考版本16.04)
 ###apache2
     sudo apt-get install apache2  //安装
     sudo /etc/init.d/apache2 restart  //重启
