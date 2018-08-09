@@ -1,14 +1,14 @@
-###LAMP配置(centos7.0)
+### LAMP配置(centos7.0)
 ```sh
 1. 安装apache        # yum install httpd httpd-devel
 2. 启动apache服务    # systemctl start  httpd
 3. 设置httpd服务开机启动     # systemctl enable  httpd
 4. 查看服务状态 	systemctl # status httpd
-5. 确认80端口监听中(至此可访问IP测试) 	netstat -tulp   //否则关闭防火墙或开启防火墙80端口
-6. 安装mysql	yum install mariadb mariadb-server mariadb-libs mariadb-devel
+5. 确认80端口监听中(至此可访问IP测试) 	# netstat -tulp   //否则关闭防火墙或开启防火墙80端口
+6. 安装mysql	# yum install mariadb mariadb-server mariadb-libs mariadb-devel
 7. 开启mysql服务，并设置开机启动，检查mysql状态 	systemctl start  mariadb 
-		systemctl enable  mariadb 
-		systemctl status  mariadb 
+		# systemctl enable  mariadb 
+		# systemctl status  mariadb 
 8. 登陆数据库测试	 mysql -uroot -p 
 9. 安装php 		yum -y install php
 10. php与mysql关联起来		yum install php-mysql
@@ -18,10 +18,10 @@
 ### centos7 安装php7
 ```sh
 1. 安装可以用的 EPEL and Remi 源
-# yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-# yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+	# yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+	# yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 2. 安装yum-utils,他是用于管理yum存储库和软件包的有用程序。它是yum基本扩展的工具。
-# yum install yum-utils
+	# yum install yum-utils
 3. 利用yum-utils启用Remi存储库作为安装不同PHP版本的默认存储库
 	# yum-config-manager --enable remi-php70   //[Install PHP 7.0]
 	# yum-config-manager --enable remi-php71   //[Install PHP 7.1]
@@ -30,7 +30,7 @@
 	# yum install php php-mcrypt php-cli php-gd php-curl php-mysql php-ldap php-zip php-fileinfo 
 5. 测试  # php -v
 ```
-###常用命令
+### 常用命令
 ```sh
 1、启动、终止、重启(centos7)
     systemctl start httpd.service #启动
@@ -70,7 +70,7 @@
 	重启机器即可
 
 ```
-###ubuntu LAMP环境配置(参考版本16.04)
+### ubuntu LAMP环境配置(参考版本16.04)
 
 ###apache2
     sudo apt-get install apache2  //安装
@@ -106,16 +106,16 @@
     apt-get install php-curl;
     apt-get install php-gd;
 
-ubuntu LNMP环境配置(参考版本16.04)
-### sudo apt install mysql-server    //安装mysql 会提示输入密码
-### #添加nginx和php的ppa源 并安装nginx
+### ubuntu LNMP环境配置(参考版本16.04)
+1. sudo apt install mysql-server    //安装mysql 会提示输入密码
+2. #添加nginx和php的ppa源 并安装nginx
 	sudo apt-add-repository ppa:nginx/stable
 	sudo apt-add-repository ppa:ondrej/php
 	sudo apt update
  	sudo apt install nginx
-### sudo apt install php7.0-fpm   //安装php7.0 
-### sudo apt-get install vim  //不影响编辑文本可忽略
-### 修改配置
+3. sudo apt install php7.0-fpm   //安装php7.0 
+4.  sudo apt-get install vim  //不影响编辑文本可忽略
+5. 修改配置
 	sudo vim /etc/php/7.0/fpm/pool.d/www.conf  //php配置
 		root /var/www/html;   //web站点根目录
 		#nginx 和fastcgi通信有2种方式，一种是TCP方式，还有种是UNIX Socket方式
@@ -135,7 +135,7 @@ ubuntu LNMP环境配置(参考版本16.04)
 	            #fastcgi_pass 127.0.0.1:9000;
 		}
 	sudo service nginx restart   //重启生效
-### sudo apt install php-mysql php-curl php-mcrypt php-gd php-memcached php-redis  #根据需要安装拓展
+6. sudo apt install php-mysql php-curl php-mcrypt php-gd php-memcached php-redis  #根据需要安装拓展
  
 
  
