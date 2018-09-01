@@ -39,7 +39,7 @@ class craw{
 		$encoding = mb_detect_encoding($data, array("ASCII","UTF-8","GB2312","GBK","BIG5")); 
 		$keytitle = iconv($encoding,"UTF-8",$data); 
 		//js
-		$rule_js = "/<[\s]*script[^>]+src=[\s]*[\'\"](.*)\.js/";
+		$rule_js = "/<[\s]*script[^>]+src=[\s]*[\'\"](.*?)\.js/";
 		preg_match_all($rule_js,$data,$result_js); 
 		$js_arr = $result_js[1];
 		
