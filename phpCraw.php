@@ -4,6 +4,10 @@ class craw{
 	public $root_dir ;
 	public $root_path;
 	public $host_path;
+	private $_js = 'js';
+	private $_css = 'css';
+	private $_image = 'images';
+	private $_picture = 'picture';
 	public function __construct($root_url){
 		$this->root_url = $root_url;
 		$fileinfo = pathinfo($root_url);
@@ -17,11 +21,17 @@ class craw{
 		
 		$data = $this->parseDom($this->root_url);
 		$this->downloadFile($data['js'],1);
-		$this->downloadFile($data['css'],2);
+		//$this->downloadFile($data['css'],2);
 		$this->downloadFile($data['img'],3);
+		
+		//解析css图片并下截
+		$content = $this->parseCssFile($data['css']);
+		 
 		$content = $this->parseloadFile($data['js'],1,$data['content']);
 		$content = $this->parseloadFile($data['css'],2,$content);
 		$content = $this->parseloadFile($data['img'],3,$content);
+		
+		
 		//写入index.html
 		$file_dir = $this->root_dir;
 		if(!is_dir($file_dir)){
@@ -61,6 +71,64 @@ class craw{
 		return $datas;
 	}
 	/**
+	*** 解析并下载css中的图片
+	*** $url_arr 文件数组，不带拓展名
+	*** $type 文件类型 1：js 2: css 3: image
+	*/
+	public function parseCssFile($url_arr)
+	{
+		$host_path = $this->host_path;
+		$root_path = $this->root_path;
+		$Dir = $this->root_dir;
+		$extension_name = '.css'; 
+		$extension_pic = ''; 
+		$file_dir = $Dir.'/'.$this->_picture;
+		$file_css = $Dir.'/'.$this->_css;
+		$file_picture = '../'.$this->_picture;
+		if(!is_dir($file_dir)){
+			mkdir($file_dir,'0777',true);
+		}
+		foreach($url_arr as $url)
+		{
+			
+			if(strpos($url,'http')!==false){
+				$file_target = $url.$extension_name;
+			}elseif(substr($url,0,1)=='/'){
+				$file_target = $host_path.$url.$extension_name;
+			}else{
+				$file_target = $root_path.'/'.$url.$extension_name;
+			}
+			$fileinfo = pathinfo($url);
+			$fileName = $fileinfo['basename'];
+			$file = file_get_contents($file_target); 
+			$rule_images = "/[\s]*background(-image)?[\s]*:[\s]*url\([\'\"]?(.*?)[\'\"]?\)/";
+			preg_match_all($rule_images,$file,$result_images);
+			$data_images_arr = $result_images[2];  
+			foreach($data_images_arr as $vv){
+				if(strpos($vv,'http')!==false){
+					$file_target1 = $vv;
+				}else{
+					$file_target1 = dirname($file_target).'/'.$vv;
+				} 
+				$fileinfo1 = pathinfo($vv);
+				$fileName1 = $fileinfo1['basename'];
+				try{
+					$file1 = @file_get_contents($file_target1); 
+					file_put_contents($file_dir.'/'.$fileName1,$file1); 
+					
+				}catch(Exception $e){
+					//echo $e->getMessage();
+				}  
+				$file = str_replace($vv,$file_picture.'/'.$fileName1,$file);
+			}   
+			if(!is_dir($file_css)){
+				mkdir($file_css,'0777',true);
+			}
+			file_put_contents($file_css.'/'.$fileName.$extension_name,$file);
+			 
+		}
+	}
+	/**
 	*** 下载文件函数
 	*** $url_arr 文件数组，不带拓展名
 	*** $type 文件类型 1：js 2: css 3: image
@@ -72,13 +140,13 @@ class craw{
 		$Dir = $this->root_dir;
 		if($type == 1){
 			$extension_name = '.js';
-			$file_dir = $Dir.'/js';
+			$file_dir = $Dir.'/'.$this->_js;;
 		}elseif($type==2){
 			$extension_name = '.css';
-			$file_dir = $Dir.'/css';
+			$file_dir = $Dir.'/'.$this->_css;;
 		}elseif($type ==3){
 			$extension_name = '';
-			$file_dir = $Dir.'/images';
+			$file_dir = $Dir.'/'.$this->_image;;
 		}
 		foreach($url_arr as $url)
 		{
@@ -92,11 +160,11 @@ class craw{
 			}
 			$fileinfo = pathinfo($url.$extension_name);
 			$fileName = $fileinfo['basename'];
-			$file = file_get_contents($file_target);
+			$file = @file_get_contents($file_target);
 			if(!is_dir($file_dir)){
 				mkdir($file_dir,'0777',true);
 			}
-			file_put_contents($file_dir.'/'.$fileName,$file);
+			@file_put_contents($file_dir.'/'.$fileName,$file);
 		}
 	}
 	/**
@@ -151,7 +219,6 @@ class craw{
 		}
 		return $filename;
 	}
-
 	//获取文件列表
 	public function list_dir($dir){
 			$result = array();
@@ -178,7 +245,6 @@ if(isset($_POST['url'])){
     $download = $craw->run();
 	$first = 1;
 }
-
 ?>
 <html>
 <head>
@@ -197,6 +263,4 @@ if(isset($first)&&$first==1){
 ?>
 
 </body>
-</html>	
-	
-	
+</html> 
